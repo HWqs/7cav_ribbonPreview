@@ -1,0 +1,358 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #1a1a2e;
+    color: #eee;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Shared styles for small muted text used across controls */
+.zoom-controls label,
+.zoom-controls .value,
+.step-control label,
+.size-row label,
+.size-value,
+.coords-overlay .label {
+    font-size: 11px;
+    color: #64748b;
+}
+
+/* Shared section divider pattern */
+.zoom-preview,
+.arrow-controls,
+.size-controls,
+.placements-section {
+    margin-top: 12px;
+    border-top: 1px solid #0f3460;
+    padding-top: 12px;
+}
+
+/* Gold section headings */
+.zoom-preview > label,
+.arrow-controls > label,
+.size-controls > label,
+.left-panel > label,
+.placements-section > label {
+    display: block;
+    margin-bottom: 8px;
+    color: #ffd700;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.left-panel > label {
+    margin-bottom: 10px;
+}
+
+/* arrows, +/-, link */
+.arrow-btn,
+.size-btn,
+.link-btn {
+    border: none;
+    border-radius: 4px;
+    background: #0f3460;
+    color: #eee;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.arrow-btn:hover,
+.size-btn:hover,
+.btn-secondary:hover {
+    background: #1a4a7a;
+}
+
+/* Canvas */
+.canvas-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#mainCanvas {
+    cursor: move;
+    max-width: 100vw;
+    max-height: 100vh;
+}
+
+/* Right-side controls panel */
+.controls {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: rgba(22, 33, 62, 0.95);
+    border-radius: 10px;
+    padding: 15px;
+    width: 280px;
+    z-index: 100;
+    max-height: calc(100vh - 20px);
+    overflow-y: auto;
+}
+
+/* Buttons */
+.btn {
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    border: none;
+    border-radius: 5px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-primary { background: #ffd700; color: #1a1a2e; }
+.btn-primary:hover { background: #ffed4a; }
+.btn-secondary { background: #0f3460; color: #eee; }
+.btn-success { background: #22c55e; color: #fff; }
+.btn-success:hover { background: #16a34a; }
+
+.btn-small {
+    padding: 6px 10px;
+    font-size: 11px;
+    display: inline-block;
+    width: auto;
+}
+
+.btn-row {
+    display: flex;
+    gap: 5px;
+}
+
+.btn-row .btn {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+/* Zoom preview */
+#zoomCanvas {
+    width: 100%;
+    height: 150px;
+    background: #0a0a15;
+    border-radius: 5px;
+    border: 1px solid #0f3460;
+}
+
+.zoom-controls {
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.zoom-controls label { margin: 0; }
+.zoom-controls input { flex: 1; }
+.zoom-controls .value { min-width: 35px; text-align: right; }
+
+/* Arrow d-pad */
+.arrow-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    max-width: 120px;
+    margin: 0 auto;
+}
+
+.arrow-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.arrow-btn:active { background: #2a5a9a; }
+.arrow-btn.empty { background: transparent; cursor: default; }
+
+.step-control {
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+}
+
+.step-control label { margin: 0; }
+
+.step-control select {
+    background: #0f3460;
+    color: #eee;
+    border: none;
+    border-radius: 3px;
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
+/* Medal size sliders */
+.size-row {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 8px;
+}
+
+.size-row label { width: 20px; }
+.size-row input[type="range"] { flex: 1; }
+
+.size-btn {
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+}
+
+.size-value {
+    width: 40px;
+    text-align: right;
+}
+
+.link-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+.link-btn.linked {
+    background: #ffd700;
+    color: #1a1a2e;
+}
+
+/* Show guides toggle */
+.toggle-group {
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.toggle-group label {
+    font-size: 11px;
+    color: #94a3b8;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.toggle-group input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+}
+
+/* Medal selector on the left */
+.left-panel {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    background: rgba(22, 33, 62, 0.95);
+    border-radius: 10px;
+    padding: 15px;
+    width: 180px;
+    z-index: 100;
+    max-height: calc(100vh - 20px);
+    overflow-y: auto;
+}
+
+.medal-tiles {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.medal-tile {
+    aspect-ratio: 1;
+    border: 2px solid #0f3460;
+    border-radius: 5px;
+    cursor: pointer;
+    overflow: hidden;
+    background: #0a0a15;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.medal-tile:hover { border-color: #1a4a7a; }
+
+.medal-tile.selected {
+    border-color: #ffd700;
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+}
+
+.medal-tile img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+}
+
+.medal-tile .tile-name {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.8);
+    color: #94a3b8;
+    font-size: 8px;
+    padding: 2px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Coordinates readout */
+.coords-overlay {
+    position: fixed;
+    bottom: 10px;
+    left: 200px;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-family: monospace;
+    font-size: 14px;
+    z-index: 100;
+}
+
+.coords-overlay .value {
+    color: #4ade80;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Saved placements panel */
+.placement-output {
+    background: #0a0a15;
+    border: 1px solid #0f3460;
+    border-radius: 5px;
+    padding: 8px;
+    font-family: monospace;
+    font-size: 10px;
+    color: #4ade80;
+    margin-bottom: 8px;
+    max-height: 100px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+.preset-select {
+    width: 100%;
+    background: #0f3460;
+    color: #eee;
+    border: none;
+    border-radius: 5px;
+    padding: 8px;
+    font-size: 12px;
+    margin-bottom: 8px;
+}

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medal preview tool</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Left panel with medal selector -->
+    <div class="left-panel">
+        <label>Select medal</label>
+        <div class="medal-tiles" id="medalTiles"></div>
+    </div>
+
+    <div class="canvas-container">
+        <canvas id="mainCanvas"></canvas>
+    </div>
+
+    <div class="controls">
+        <div class="toggle-group">
+            <label><input type="checkbox" id="showOverlay" checked onchange="render()"> Show guides</label>
+        </div>
+
+        <button class="btn btn-secondary" onclick="resetPosition()">Reset</button>
+        <button class="btn btn-primary" onclick="saveImage()">Save image</button>
+
+        <div class="zoom-preview">
+            <label>Zoomed preview</label>
+            <canvas id="zoomCanvas"></canvas>
+            <div class="zoom-controls">
+                <label>Zoom:</label>
+                <input type="range" id="zoomLevelSlider" min="100" max="500" value="200">
+                <span class="value" id="zoomLevelValue">2x</span>
+            </div>
+        </div>
+
+        <div class="arrow-controls">
+            <label>Fine position</label>
+            <div class="arrow-grid">
+                <div class="arrow-btn empty"></div>
+                <button class="arrow-btn" onclick="moveMedal(0, -1)">▲</button>
+                <div class="arrow-btn empty"></div>
+                <button class="arrow-btn" onclick="moveMedal(-1, 0)">◀</button>
+                <button class="arrow-btn" onclick="moveMedal(0, 0)" style="font-size: 10px;">●</button>
+                <button class="arrow-btn" onclick="moveMedal(1, 0)">▶</button>
+                <div class="arrow-btn empty"></div>
+                <button class="arrow-btn" onclick="moveMedal(0, 1)">▼</button>
+                <div class="arrow-btn empty"></div>
+            </div>
+            <div class="step-control">
+                <label>Step:</label>
+                <select id="stepSize">
+                    <option value="1" selected>1 px</option>
+                    <option value="5">5 px</option>
+                    <option value="10">10 px</option>
+                    <option value="25">25 px</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="size-controls">
+            <label>Medal size (anchor bottom-left)
+                <button class="link-btn" id="linkBtn" onclick="toggleLink()" title="Link W/H">🔗</button>
+            </label>
+            <div class="size-row">
+                <label>W</label>
+                <button class="size-btn" onclick="adjustWidth(-1)">−</button>
+                <input type="range" id="widthSlider" min="5" max="200" value="26">
+                <button class="size-btn" onclick="adjustWidth(1)">+</button>
+                <span class="size-value" id="widthValue">26%</span>
+            </div>
+            <div class="size-row">
+                <label>H</label>
+                <button class="size-btn" onclick="adjustHeight(-1)">−</button>
+                <input type="range" id="heightSlider" min="5" max="200" value="28">
+                <button class="size-btn" onclick="adjustHeight(1)">+</button>
+                <span class="size-value" id="heightValue">28%</span>
+            </div>
+            <div class="size-row" style="margin-top: 10px;">
+                <label>Blur</label>
+                <button class="size-btn" onclick="adjustBlur(-1)">−</button>
+                <input type="range" id="blurSlider" min="0" max="200" value="5" step="1">
+                <button class="size-btn" onclick="adjustBlur(1)">+</button>
+                <span class="size-value" id="blurValue">0.5px</span>
+            </div>
+        </div>
+
+        <div class="placements-section">
+            <label>Medal placements database</label>
+            <select class="preset-select" id="presetSelect" onchange="loadPreset()">
+                <option value="">Load saved position...</option>
+            </select>
+            <div class="placement-output" id="placementOutput">No placements saved</div>
+            <div class="btn-row">
+                <button class="btn btn-success btn-small" onclick="addPlacement()">+ Add</button>
+                <button class="btn btn-secondary btn-small" onclick="deleteLastPlacement()">Delete</button>
+            </div>
+            <div class="btn-row" style="margin-top: 5px;">
+                <button class="btn btn-primary btn-small" onclick="saveDatabase()">Save DB</button>
+                <button class="btn btn-secondary btn-small" onclick="copyPlacements()">Copy</button>
+                <button class="btn btn-secondary btn-small" onclick="clearPlacements()">Clear</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="coords-overlay">
+        <div><span class="label">Medal position</span></div>
+        <div><span class="label">X:</span> <span class="value" id="posX">0</span></div>
+        <div><span class="label">Y:</span> <span class="value" id="posY">0</span></div>
+        <div style="margin-top: 5px; border-top: 1px solid #333; padding-top: 5px;">
+            <div><span class="label">Cursor</span></div>
+            <div><span class="label">X:</span> <span class="value" id="cursorX">0</span></div>
+            <div><span class="label">Y:</span> <span class="value" id="cursorY">0</span></div>
+        </div>
+    </div>
+
+
+    <script src="script.js"></script>
+</body>
+</html>
